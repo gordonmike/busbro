@@ -10,6 +10,7 @@
   "private": true,
   "dependencies": {
     "@supabase/supabase-js": "^2.108.1",
+    "@upstash/redis": "^1.38.0",
     "hono": "^4.12.25",
     "honox": "0.1.56",
     "svix": "^1.95.2"

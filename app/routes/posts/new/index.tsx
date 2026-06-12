@@ -2,6 +2,7 @@ import type { FC } from 'hono/jsx'
 import { createRoute } from 'honox/factory'
 import { useRequestContext } from 'hono/jsx-renderer'
 import { createClient } from '@supabase/supabase-js'
+import { createRedisClient } from '../../../utils/cache'
 
 export const POST = createRoute(async (c) => {
   const user = c.var.user
@@ -29,6 +30,14 @@ export const POST = createRoute(async (c) => {
   if (error) {
     console.error(error)
     return c.redirect('/posts/new?error=' + encodeURIComponent(error.message))
+  }
+
+  // Invalidate the cache since a new post was just added
+  try {
+    const redis = createRedisClient(c.env)
+    await redis.del('posts_feed')
+  } catch (err) {
+    console.error('Failed to invalidate redis cache:', err)
   }
 
   return c.redirect('/posts')
