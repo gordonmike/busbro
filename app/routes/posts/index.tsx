@@ -1,10 +1,7 @@
-import type { FC } from 'hono/jsx'
-import { useRequestContext } from 'hono/jsx-renderer'
+import { createRoute } from 'honox/factory'
 import { createClient } from '@supabase/supabase-js'
 
-export default async function PostsPage() {
-  const c = useRequestContext()
-
+export default createRoute(async (c) => {
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY)
 
   // Fetch posts ordered by newest first
@@ -13,7 +10,7 @@ export default async function PostsPage() {
     .select('*')
     .order('created_at', { ascending: false })
 
-  return (
+  return c.render(
     <div class="flex-1 w-full max-w-6xl mx-auto px-6 py-12">
       <div class="flex items-center justify-between mb-12">
         <div>
@@ -81,4 +78,4 @@ export default async function PostsPage() {
       )}
     </div>
   )
-}
+})

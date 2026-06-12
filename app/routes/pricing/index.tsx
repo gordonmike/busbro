@@ -1,8 +1,6 @@
-import type { FC } from 'hono/jsx'
-import { useRequestContext } from 'hono/jsx-renderer'
+import { createRoute } from 'honox/factory'
 
-export default function PricingPage() {
-  const c = useRequestContext()
+export default createRoute((c) => {
   const user = c.var.user
 
   const isPro = user?.is_pro || false
@@ -12,7 +10,7 @@ export default function PricingPage() {
     ? `${c.env.NEXT_PUBLIC_POLAR_CHECKOUT_LINK}?metadata[user_id]=${user.id}&customer_email=${encodeURIComponent(user.email)}`
     : '/login?error=You must log in to upgrade'
 
-  return (
+  return c.render(
     <div class="flex-1 w-full max-w-4xl mx-auto px-6 py-24 text-center">
       <h1 class="text-5xl font-extrabold tracking-tight mb-6">Simple, transparent pricing</h1>
       <p class="text-xl text-gray-400 mb-16 max-w-2xl mx-auto">
@@ -69,4 +67,4 @@ export default function PricingPage() {
       </div>
     </div>
   )
-}
+})

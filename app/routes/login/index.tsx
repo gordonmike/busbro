@@ -1,11 +1,9 @@
-import type { FC } from 'hono/jsx'
-import { useRequestContext } from 'hono/jsx-renderer'
+import { createRoute } from 'honox/factory'
 
-export default function LoginPage() {
-  const c = useRequestContext()
+export default createRoute((c) => {
   const errorMessage = c.req.query('error')
 
-  return (
+  return c.render(
     <div class="flex-1 flex items-center justify-center p-4 relative overflow-hidden">
       {/* Background Gradients (matching landing page aesthetic) */}
       <div class="absolute inset-0 pointer-events-none -z-10">
@@ -93,4 +91,4 @@ export default function LoginPage() {
       </div>
     </div>
   )
-}
+})

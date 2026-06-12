@@ -34,15 +34,14 @@ export const POST = createRoute(async (c) => {
   return c.redirect('/posts')
 })
 
-export default function NewPostPage() {
-  const c = useRequestContext()
+export default createRoute((c) => {
   const errorMessage = c.req.query('error')
   const user = c.var.user
 
   // Require authentication to view form (though they could technically view it and fail on submit, it's better to hide it)
   if (!user) {
     // In HonoX, throwing a Response redirects. Alternatively, we could just return a message
-    return (
+    return c.render(
       <div class="flex-1 w-full max-w-3xl mx-auto px-6 py-12 text-center">
         <h1 class="text-3xl font-bold mb-4">Please log in</h1>
         <a href="/login" class="text-purple-400 hover:underline">Go to login</a>
@@ -50,7 +49,7 @@ export default function NewPostPage() {
     )
   }
 
-  return (
+  return c.render(
     <div class="flex-1 w-full max-w-3xl mx-auto px-6 py-12">
       <div class="mb-10">
         <h1 class="text-3xl font-bold tracking-tight mb-2">Share an Idea</h1>
@@ -102,4 +101,4 @@ export default function NewPostPage() {
       </form>
     </div>
   )
-}
+})
