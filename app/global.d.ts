@@ -9,8 +9,6 @@ declare module 'hono' {
       SUPABASE_URL: string
       SUPABASE_ANON_KEY: string
       SUPABASE_SERVICE_ROLE_KEY: string
-      UPSTASH_REDIS_REST_URL: string
-      UPSTASH_REDIS_REST_TOKEN: string
       POLAR_WEBHOOK_SECRET: string
       NEXT_PUBLIC_POLAR_CHECKOUT_LINK: string
     }

@@ -1,6 +1,5 @@
 import { createRoute } from 'honox/factory'
 import { createClient } from '@supabase/supabase-js'
-import { createRedisClient } from '../../utils/cache'
 
 export default createRoute(async (c) => {
   // Cache the page in the user's browser for 15 seconds to make navigating back/forth instant.
@@ -8,34 +7,12 @@ export default createRoute(async (c) => {
   c.header('Cache-Control', 'private, max-age=15, stale-while-revalidate=60')
 
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY)
-  const redis = createRedisClient(c.env)
 
-  // 1. Check Redis Cache first
-  let posts: any[] | null = null
-  let error: any = null
-
-  try {
-    posts = await redis.get<any[]>('posts_feed')
-  } catch (err) {
-    console.error('Redis cache error:', err)
-  }
-
-  // 2. If Cache Miss, Fetch from Supabase and Set Cache
-  if (!posts) {
-    const { data: dbPosts, error: dbError } = await supabase
-      .from('posts')
-      .select('*')
-      .order('created_at', { ascending: false })
-
-    if (dbError) {
-      error = dbError
-    } else if (dbPosts) {
-      posts = dbPosts
-      // Cache for 60 seconds (or more, since we invalidate on new post)
-      // Here we set ex: 300 (5 minutes) because it will be automatically invalidated
-      await redis.set('posts_feed', posts, { ex: 300 }).catch(console.error)
-    }
-  }
+  // Fetch posts ordered by newest first
+  const { data: posts, error } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false })
 
   return c.render(
     <div class="flex-1 w-full max-w-6xl mx-auto px-6 py-12">

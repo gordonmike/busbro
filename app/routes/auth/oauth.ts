@@ -1,12 +1,21 @@
 import { createRoute } from 'honox/factory'
 import { createClient } from '@supabase/supabase-js'
 
+import { setCookie, getCookie, deleteCookie } from 'hono/cookie'
+
 export const POST = createRoute(async (c) => {
   const body = await c.req.parseBody()
   const provider = body.provider as any
 
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY, {
-    auth: { persistSession: false }
+    auth: {
+      flowType: 'pkce',
+      storage: {
+        getItem: (key) => getCookie(c, key) || null,
+        setItem: (key, value) => setCookie(c, key, value, { path: '/', secure: true, httpOnly: true, sameSite: 'Lax' }),
+        removeItem: (key) => deleteCookie(c, key, { path: '/' })
+      }
+    }
   })
 
   // get the base URL for the callback
