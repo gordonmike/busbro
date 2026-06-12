@@ -2,6 +2,10 @@ import { createRoute } from 'honox/factory'
 import { createClient } from '@supabase/supabase-js'
 
 export default createRoute(async (c) => {
+  // Cache the page in the user's browser for 15 seconds to make navigating back/forth instant.
+  // We use "private" so Cloudflare's Edge doesn't cache your logged-in navbar for other people!
+  c.header('Cache-Control', 'private, max-age=15, stale-while-revalidate=60')
+
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY)
 
   // Fetch posts ordered by newest first
