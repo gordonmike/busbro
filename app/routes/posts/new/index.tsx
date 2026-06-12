@@ -3,18 +3,27 @@ import { createRoute } from 'honox/factory'
 import { useRequestContext } from 'hono/jsx-renderer'
 import { createClient } from '@supabase/supabase-js'
 
+import { getCookie } from 'hono/cookie'
+
 export const POST = createRoute(async (c) => {
   const user = c.var.user
 
   if (!user) {
-    return c.redirect('/login?error=You must be logged in to share an idea')
+    return c.redirect('/login?error=Unauthorized')
   }
 
   const body = await c.req.parseBody()
   const title = body.title as string
   const content = body.content as string
 
-  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY)
+  const token = getCookie(c, 'sb-access-token')
+  const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+  })
 
   const { error } = await supabase
     .from('posts')
