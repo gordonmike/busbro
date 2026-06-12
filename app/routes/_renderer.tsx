@@ -13,6 +13,8 @@ export default jsxRenderer(({ children, title }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title || 'Cluebus | Business Ideas'}</title>
         <link rel="icon" href="/favicon.ico" />
+        {/* Inline style to prevent white flash before Tailwind CSS loads */}
+        <style dangerouslySetInnerHTML={{ __html: `html, body { background-color: #050505; color: #ffffff; }` }} />
         <Link href="/app/style.css" rel="stylesheet" />
         <Script src="/app/client.ts" async />
       </head>
