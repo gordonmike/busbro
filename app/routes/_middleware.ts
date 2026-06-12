@@ -14,6 +14,11 @@ export const authMiddleware = createMiddleware(async (c, next) => {
   const supabase = createClient(c.env.SUPABASE_URL, c.env.SUPABASE_ANON_KEY, {
     auth: {
       persistSession: false,
+    },
+    global: {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
   })
 
