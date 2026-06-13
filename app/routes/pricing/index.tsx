@@ -90,7 +90,7 @@ export default createRoute((c) => {
               <button 
                 type="button"
                 class="block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
-                onClick={`openPaddleCheckout('${user.id}')`}
+                onClick={user ? `openPaddleCheckout('${user.id}')` : `window.location.href='/login?error=You must log in to upgrade'`}
               >
                 Upgrade to Pro (Paddle)
               </button>
