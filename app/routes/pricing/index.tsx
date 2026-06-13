@@ -62,14 +62,13 @@ export default createRoute((c) => {
               >
                 Upgrade to Pro (Polar)
               </a>
-              <a 
-                href="#!"
-                class="paddle_button block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
-                data-items='[{"priceId": "pri_01ktzbk6mx44yn8ad5tb8nrf1d", "quantity": 1}]'
-                data-custom-data={`{"user_id": "${user.id}"}`}
+              <button 
+                type="button"
+                class="block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
+                onClick={`Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], customData: { user_id: '${user.id}' } })`}
               >
                 Upgrade to Pro (Paddle)
-              </a>
+              </button>
             </div>
           )}
         </div>
