@@ -17,6 +17,15 @@ export default jsxRenderer(({ children, title }) => {
         <style dangerouslySetInnerHTML={{ __html: `html, body { background-color: #050505; color: #ffffff; }` }} />
         <Link href="/app/style.css" rel="stylesheet" />
         <Script src="/app/client.ts" async />
+        
+        {/* Paddle.js for Overlay Checkout */}
+        <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+        <script dangerouslySetInnerHTML={{ __html: `
+          Paddle.Environment.set("sandbox");
+          Paddle.Initialize({ 
+            token: "test_7efc04bdd1573440a56ac629ee9"
+          });
+        `}} />
       </head>
       <body class="min-h-full flex flex-col bg-[#050505] text-white selection:bg-purple-500/30 font-sans">
         <Navbar user={user} />
