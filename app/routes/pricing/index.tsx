@@ -70,7 +70,17 @@ export default createRoute((c) => {
                 onClick={`
                   document.getElementById('pricing-grid').style.display = 'none';
                   document.getElementById('paddle-checkout-container').style.display = 'block';
-                  Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], customData: { user_id: '${user.id}' } });
+                  Paddle.Checkout.open({ 
+                    settings: { 
+                      displayMode: 'inline', 
+                      theme: 'dark', 
+                      frameTarget: 'paddle-checkout-container',
+                      frameInitialHeight: '450',
+                      frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;'
+                    }, 
+                    items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], 
+                    customData: { user_id: '${user.id}' } 
+                  });
                 `}
               >
                 Upgrade to Pro (Paddle)
