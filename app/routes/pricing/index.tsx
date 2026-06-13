@@ -5,13 +5,12 @@ export default createRoute((c) => {
 
   const isPro = user?.is_pro || false
 
-  // Construct the secure checkout links with hidden metadata
   const polarCheckoutUrl = user && c.env.NEXT_PUBLIC_POLAR_CHECKOUT_LINK
     ? `${c.env.NEXT_PUBLIC_POLAR_CHECKOUT_LINK}?metadata[user_id]=${user.id}&customer_email=${encodeURIComponent(user.email)}`
     : '/login?error=You must log in to upgrade'
     
-  const paddleCheckoutUrl = user && c.env.NEXT_PUBLIC_PADDLE_CHECKOUT_LINK
-    ? `${c.env.NEXT_PUBLIC_PADDLE_CHECKOUT_LINK}?custom_data[user_id]=${user.id}&customer_email=${encodeURIComponent(user.email)}`
+  const paddleCheckoutUrl = user
+    ? `/api/checkout/paddle`
     : '/login?error=You must log in to upgrade'
 
   return c.render(
