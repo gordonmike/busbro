@@ -56,8 +56,8 @@ export const GET = createRoute(async (c) => {
     } else {
       throw new Error('No checkout URL returned from Paddle')
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error("Paddle Transaction Error:", error)
-    return c.text('Error creating checkout session', 500)
+    return c.text('Error creating checkout session: ' + (error.message || JSON.stringify(error)), 500)
   }
 })
