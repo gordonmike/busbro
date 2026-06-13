@@ -16,7 +16,9 @@ export default createRoute((c) => {
         Join our community of makers. Upgrade to Pro for exclusive insights, unlimited ideas, and verified feedback.
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+      <div id="paddle-checkout-container" class="w-full max-w-2xl mx-auto hidden bg-white/5 rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
+
+      <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
         {/* Free Tier */}
         <div class="rounded-3xl border border-white/10 bg-white/[0.02] p-8 text-left backdrop-blur-md">
           <h3 class="text-2xl font-bold mb-2">Hobby</h3>
@@ -65,7 +67,11 @@ export default createRoute((c) => {
               <button 
                 type="button"
                 class="block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
-                onClick={`Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], customData: { user_id: '${user.id}' } })`}
+                onClick={`
+                  document.getElementById('pricing-grid').style.display = 'none';
+                  document.getElementById('paddle-checkout-container').style.display = 'block';
+                  Paddle.Checkout.open({ items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], customData: { user_id: '${user.id}' } });
+                `}
               >
                 Upgrade to Pro (Paddle)
               </button>

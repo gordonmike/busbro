@@ -25,7 +25,11 @@ export default jsxRenderer(({ children, title }) => {
             token: "test_7efc04bdd1573440a56ac629ee9",
             checkout: {
               settings: {
-                theme: "dark"
+                displayMode: "inline",
+                theme: "dark",
+                frameTarget: "paddle-checkout-container",
+                frameInitialHeight: "450",
+                frameStyle: "width: 100%; min-width: 312px; background-color: transparent; border: none;"
               }
             },
             eventCallback: function(data) {
