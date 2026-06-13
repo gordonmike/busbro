@@ -11,6 +11,9 @@ declare module 'hono' {
       SUPABASE_SERVICE_ROLE_KEY: string
       POLAR_WEBHOOK_SECRET: string
       NEXT_PUBLIC_POLAR_CHECKOUT_LINK: string
+      PADDLE_CLIENT_TOKEN: string
+      PADDLE_PRICE_ID: string
+      PADDLE_WEBHOOK_SECRET: string
     }
   }
 }

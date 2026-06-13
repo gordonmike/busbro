@@ -56,15 +56,43 @@ export default createRoute((c) => {
               You are already a Pro
             </button>
           ) : (
-            <a 
-              href={checkoutUrl}
-              class="block w-full py-4 rounded-xl bg-white text-black text-center font-bold hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.2)]"
-            >
-              Upgrade to Pro
-            </a>
+            <div class="flex flex-col gap-3">
+              <a 
+                href={checkoutUrl}
+                class="block w-full py-4 rounded-xl bg-white text-black text-center font-bold hover:scale-105 transition-transform shadow-[0_0_20px_rgba(255,255,255,0.2)]"
+              >
+                Upgrade to Pro (Polar)
+              </a>
+              {user ? (
+                <button 
+                  onclick={`Paddle.Checkout.open({ items: [{ priceId: '${c.env.PADDLE_PRICE_ID}', quantity: 1 }], customData: { user_id: '${user.id}' } })`}
+                  class="w-full py-4 rounded-xl border border-purple-500 text-purple-400 text-center font-bold hover:bg-purple-500/10 transition-colors"
+                >
+                  Upgrade to Pro (Paddle)
+                </button>
+              ) : (
+                <a 
+                  href="/login?error=You must log in to upgrade"
+                  class="block w-full py-4 rounded-xl border border-purple-500 text-purple-400 text-center font-bold hover:bg-purple-500/10 transition-colors"
+                >
+                  Upgrade to Pro (Paddle)
+                </a>
+              )}
+            </div>
           )}
         </div>
       </div>
+      
+      {/* Paddle Initialization Scripts */}
+      <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+      <script dangerouslySetInnerHTML={{ __html: `
+        if (typeof Paddle !== 'undefined') {
+          // Paddle.Environment.set('sandbox'); // Uncomment to use Sandbox mode
+          Paddle.Initialize({ 
+            token: '${c.env.PADDLE_CLIENT_TOKEN || ''}',
+          });
+        }
+      `}} />
     </div>
   )
 })
