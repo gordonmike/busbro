@@ -16,6 +16,29 @@ export default createRoute((c) => {
         Join our community of makers. Upgrade to Pro for exclusive insights, unlimited ideas, and verified feedback.
       </p>
 
+      <script dangerouslySetInnerHTML={{ __html: `
+        function openPaddleCheckout(userId) {
+          document.getElementById('pricing-grid').style.display = 'none';
+          const container = document.getElementById('paddle-checkout-container');
+          container.style.display = 'block';
+          
+          // Small timeout to ensure browser paints the container before Paddle injects iframe
+          setTimeout(() => {
+            Paddle.Checkout.open({ 
+              settings: { 
+                displayMode: 'inline', 
+                theme: 'dark', 
+                frameTarget: 'paddle-checkout-container',
+                frameInitialHeight: 450,
+                frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;'
+              }, 
+              items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], 
+              customData: { user_id: userId } 
+            });
+          }, 50);
+        }
+      `}} />
+
       <div id="paddle-checkout-container" class="w-full max-w-2xl mx-auto hidden bg-white/5 rounded-3xl border border-white/10 overflow-hidden shadow-2xl"></div>
 
       <div id="pricing-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
@@ -67,21 +90,7 @@ export default createRoute((c) => {
               <button 
                 type="button"
                 class="block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
-                onClick={`
-                  document.getElementById('pricing-grid').style.display = 'none';
-                  document.getElementById('paddle-checkout-container').style.display = 'block';
-                  Paddle.Checkout.open({ 
-                    settings: { 
-                      displayMode: 'inline', 
-                      theme: 'dark', 
-                      frameTarget: 'paddle-checkout-container',
-                      frameInitialHeight: '450',
-                      frameStyle: 'width: 100%; min-width: 312px; background-color: transparent; border: none;'
-                    }, 
-                    items: [{ priceId: 'pri_01ktzbk6mx44yn8ad5tb8nrf1d', quantity: 1 }], 
-                    customData: { user_id: '${user.id}' } 
-                  });
-                `}
+                onClick={`openPaddleCheckout('${user.id}')`}
               >
                 Upgrade to Pro (Paddle)
               </button>
