@@ -8,10 +8,6 @@ export default createRoute((c) => {
   const polarCheckoutUrl = user && c.env.NEXT_PUBLIC_POLAR_CHECKOUT_LINK
     ? `${c.env.NEXT_PUBLIC_POLAR_CHECKOUT_LINK}?metadata[user_id]=${user.id}&customer_email=${encodeURIComponent(user.email)}`
     : '/login?error=You must log in to upgrade'
-    
-  const paddleCheckoutUrl = user
-    ? `/api/checkout/paddle`
-    : '/login?error=You must log in to upgrade'
 
   return c.render(
     <div class="flex-1 w-full max-w-4xl mx-auto px-6 py-24 text-center">
@@ -67,8 +63,10 @@ export default createRoute((c) => {
                 Upgrade to Pro (Polar)
               </a>
               <a 
-                href={paddleCheckoutUrl}
-                class="block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
+                href="#!"
+                class="paddle_button block w-full py-4 rounded-xl border border-white/20 bg-black/20 text-white text-center font-bold hover:bg-white/10 transition-colors"
+                data-items='[{"priceId": "pri_01ktzbk6mx44yn8ad5tb8nrf1d", "quantity": 1}]'
+                data-custom-data={`{"user_id": "${user.id}"}`}
               >
                 Upgrade to Pro (Paddle)
               </a>

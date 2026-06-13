@@ -23,7 +23,17 @@ export default jsxRenderer(({ children, title }) => {
         <script dangerouslySetInnerHTML={{ __html: `
           Paddle.Environment.set("sandbox");
           Paddle.Initialize({ 
-            token: "test_7efc04bdd1573440a56ac629ee9"
+            token: "test_7efc04bdd1573440a56ac629ee9",
+            checkout: {
+              settings: {
+                theme: "dark"
+              }
+            },
+            eventCallback: function(data) {
+              if (data.name === "checkout.completed") {
+                window.location.href = "/";
+              }
+            }
           });
         `}} />
       </head>
